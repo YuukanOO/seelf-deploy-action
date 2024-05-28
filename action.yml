@@ -1,0 +1,33 @@
+name: "seelf Deploy"
+description: "Deploy an application to your seelf instance"
+inputs:
+  host:
+    description: "seelf root Url without the trailing slash"
+    required: true
+  token:
+    description: "seelf API Token"
+    required: true
+  appid:
+    description: "Application ID"
+    required: true
+  environment:
+    description: "Environment being deployed (production or staging)"
+    required: true
+    default: "production"
+  branch:
+    description: "Branch to deploy, will default to the $GITHUB_REF_NAME variable"
+  commit:
+    description: "Commit to deploy, will default to the $GITHUB_SHA variable"
+outputs:
+  url:
+    description: "Main Url of the deployed application if it exists"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.host }}
+    - ${{ inputs.token }}
+    - ${{ inputs.appid }}
+    - ${{ inputs.environment }}
+    - ${{ inputs.branch }}
+    - ${{ inputs.commit }}
